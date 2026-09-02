@@ -1,0 +1,50 @@
+<mujoco model="g1_task1_scene">
+  <include file="g1_body29_hand14.xml"/>
+
+  <statistic center="0.4 0 0.8" extent="1.5"/>
+
+  <visual>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.6 0.6 0.6" specular="0.2 0.2 0.2"/>
+    <quality shadowsize="2048"/>
+  </visual>
+
+  <equality>
+    <weld body1="pelvis"/>
+  </equality>
+
+  <worldbody>
+    <!-- 고대비 방향성 조명 및 그림자 -->
+    <light name="main_light" pos="0.5 0 2.5" dir="-0.2 0 -1" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="true"/>
+    <light name="fill_light" pos="-0.5 -0.5 2.0" dir="0.2 0.2 -1" diffuse="0.3 0.3 0.3" castshadow="false"/>
+
+    <!-- 어두운 슬레이트 그레이 바닥 (로봇과 고대비 형성) -->
+    <geom name="floor" pos="0 0 0" size="4 4 0.05" type="plane" rgba="0.18 0.20 0.24 1"/>
+
+    <!-- 표준 1인칭 카메라 -->
+    <camera name="head_camera" pos="0.25 0 1.25" mode="targetbody" target="table" fovy="70"/>
+    <camera name="task_demo_camera" pos="1.2 1.1 1.45" mode="targetbody" target="table" fovy="55"/>
+
+    <!-- 표준 작업 테이블 (나무 질감) -->
+    <body name="table" pos="0.45 0 0.4">
+      <geom name="table_top" type="box" size="0.28 0.40 0.35" rgba="0.38 0.26 0.16 1" friction="0.4 0.05 0.005"/>
+      <geom name="leg1" type="cylinder" size="0.02 0.35" pos="0.24 0.36 -0.35" rgba="0.1 0.1 0.1 1"/>
+      <geom name="leg2" type="cylinder" size="0.02 0.35" pos="-0.24 0.36 -0.35" rgba="0.1 0.1 0.1 1"/>
+      <geom name="leg3" type="cylinder" size="0.02 0.35" pos="0.24 -0.36 -0.35" rgba="0.1 0.1 0.1 1"/>
+      <geom name="leg4" type="cylinder" size="0.02 0.35" pos="-0.24 -0.36 -0.35" rgba="0.1 0.1 0.1 1"/>
+    </body>
+
+    <!-- 조작 대상 1: 빨간색 머그 잔 -->
+    <body name="red_mug" pos="0.48 -0.04 0.781">
+      <inertial pos="0 0 -0.02" mass="0.12" diaginertia="0.0006 0.0006 0.0002"/>
+      <joint name="mug_joint" type="free"/>
+      <geom name="mug_body" type="cylinder" size="0.03 0.05" pos="0 0 0.02" rgba="0.85 0.15 0.15 1" friction="2 0.05 0.005" condim="4"/>
+      <geom name="mug_handle" type="box" size="0.008 0.012 0.025" pos="-0.038 0 0.02" rgba="0.85 0.15 0.15 1" contype="0" conaffinity="0"/>
+      <geom name="mug_weighted_base" type="cylinder" size="0.032 0.006" pos="0 0 -0.025" rgba="0.65 0.08 0.08 1" friction="2 0.05 0.005" condim="4"/>
+    </body>
+
+    <!-- 조작 대상 2: 검은색 코스터 (목표 지점) -->
+    <body name="black_coaster" pos="0.58 -0.04 0.751">
+      <geom name="coaster_geom" type="cylinder" size="0.06 0.001" rgba="0.03 0.03 0.04 1" contype="0" conaffinity="0"/>
+    </body>
+  </worldbody>
+</mujoco>

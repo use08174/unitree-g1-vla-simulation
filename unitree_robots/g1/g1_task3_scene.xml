@@ -1,0 +1,44 @@
+<mujoco model="g1_task3_scene">
+  <include file="g1_body29_hand14.xml"/>
+
+  <statistic center="0.4 0 0.8" extent="1.5"/>
+
+  <visual>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.6 0.6 0.6"/>
+    <quality shadowsize="2048"/>
+  </visual>
+
+  <equality>
+    <weld body1="pelvis"/>
+  </equality>
+
+  <worldbody>
+    <light name="main_light" pos="0.5 0 2.5" dir="-0.2 0 -1" diffuse="0.8 0.8 0.8" castshadow="true"/>
+    <geom name="floor" pos="0 0 0" size="4 4 0.05" type="plane" rgba="0.18 0.20 0.24 1"/>
+    <camera name="head_camera" pos="0.25 0 1.25" mode="targetbody" target="table" fovy="70"/>
+    <camera name="task_demo_camera" pos="1.2 1.1 1.45" mode="targetbody" target="table" fovy="55"/>
+
+    <body name="table" pos="0.45 0 0.4">
+      <geom name="table_top" type="box" size="0.28 0.40 0.35" rgba="0.35 0.25 0.18 1"/>
+    </body>
+
+    <!-- 쓰레받기 (왼손용) -->
+    <body name="dustpan" pos="0.62 -0.04 0.751">
+      <geom name="dustpan_base" type="box" size="0.06 0.06 0.001" rgba="0.2 0.7 0.5 1" contype="0" conaffinity="0"/>
+      <geom name="dustpan_handle" type="box" size="0.015 0.05 0.01" pos="0 -0.05 0.01" rgba="0.2 0.7 0.5 1" contype="0" conaffinity="0"/>
+    </body>
+
+    <!-- 솔/청소 솔 (오른손용) -->
+    <body name="brush" pos="0.42 -0.04 0.77">
+      <joint name="brush_joint" type="free"/>
+      <geom name="brush_head" type="box" size="0.05 0.02 0.015" rgba="0.8 0.5 0.2 1" friction="2 0.05 0.005" condim="4"/>
+      <geom name="brush_handle" type="cylinder" size="0.02 0.05" pos="0 0 0.065" rgba="0.6 0.3 0.1 1" friction="2 0.05 0.005" condim="4"/>
+    </body>
+
+    <!-- 청소 대상 목재 블록 -->
+    <body name="block" pos="0.52 -0.04 0.77">
+      <joint name="block_joint" type="free"/>
+      <geom name="block_geom" type="box" size="0.02 0.02 0.02" rgba="0.85 0.35 0.1 1" mass="0.03" friction="1.5 0.05 0.005" condim="4"/>
+    </body>
+  </worldbody>
+</mujoco>

@@ -1,0 +1,17 @@
+**/build/
+**/.vscode/
+**/__pycache__/
+**/log/
+**/install/
+simulate/mujoco
+
+*.py[cod]
+*.log
+.DS_Store
+.env
+.venv/
+venv/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/

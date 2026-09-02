@@ -1,0 +1,53 @@
+<mujoco model="g1_task2_scene">
+  <include file="g1_body29_hand14.xml"/>
+
+  <statistic center="0.4 0 0.8" extent="1.5"/>
+
+  <visual>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.6 0.6 0.6"/>
+    <quality shadowsize="2048"/>
+  </visual>
+
+  <equality>
+    <weld body1="pelvis"/>
+  </equality>
+
+  <worldbody>
+    <light name="main_light" pos="0.5 0 2.5" dir="-0.2 0 -1" diffuse="0.8 0.8 0.8" castshadow="true"/>
+    <geom name="floor" pos="0 0 0" size="4 4 0.05" type="plane" rgba="0.18 0.20 0.24 1"/>
+    <camera name="head_camera" pos="0.25 0 1.25" mode="targetbody" target="table" fovy="70"/>
+    <camera name="task_demo_camera" pos="1.2 1.1 1.45" mode="targetbody" target="table" fovy="55"/>
+
+    <body name="table" pos="0.45 0 0.4">
+      <geom name="table_top" type="box" size="0.28 0.42 0.35" rgba="0.35 0.25 0.18 1"/>
+    </body>
+
+    <!-- 빨간색 트레이 (사과용) -->
+    <body name="red_tray" pos="0.58 -0.18 0.751">
+      <geom name="red_tray_geom" type="box" size="0.055 0.055 0.001" rgba="0.9 0.2 0.2 1" contype="0" conaffinity="0"/>
+    </body>
+
+    <!-- 파란색 트레이 (음료수 캔용) -->
+    <body name="blue_tray" pos="0.58 -0.04 0.751">
+      <geom name="blue_tray_geom" type="box" size="0.055 0.055 0.001" rgba="0.2 0.4 0.9 1" contype="0" conaffinity="0"/>
+    </body>
+
+    <!-- 사과 -->
+    <body name="apple" pos="0.48 -0.18 0.79">
+      <joint name="apple_joint" type="free"/>
+      <geom name="apple_geom" type="sphere" size="0.035" rgba="0.85 0.1 0.1 1" mass="0.1" friction="2 0.05 0.005" condim="4"/>
+    </body>
+
+    <!-- 음료수 캔 -->
+    <body name="soda_can" pos="0.48 -0.04 0.80">
+      <joint name="soda_joint" type="free"/>
+      <geom name="soda_geom" type="cylinder" size="0.03 0.05" rgba="0.1 0.6 0.9 1" mass="0.15" friction="2 0.05 0.005" condim="4"/>
+    </body>
+
+    <!-- 방해물 (Distractor: 노란 스펀지) -->
+    <body name="sponge" pos="0.40 0.10 0.77">
+      <joint name="sponge_joint" type="free"/>
+      <geom name="sponge_geom" type="box" size="0.035 0.025 0.015" rgba="0.9 0.8 0.1 1" mass="0.02"/>
+    </body>
+  </worldbody>
+</mujoco>
