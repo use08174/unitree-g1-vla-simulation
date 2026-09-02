@@ -12,7 +12,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 SCENES = {
     "Environment 1": ROOT / "unitree_robots/g1/g1_task1_scene.xml",
     "Environment 2": ROOT / "unitree_robots/g1/g1_task2_scene.xml",
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("/scratch/sumins/groot_visualizations/task1_demonstration.mp4"),
+        default=ROOT / "visualizations/replayed_environment1.mp4",
     )
     parser.add_argument("--width", type=int, default=640)
     parser.add_argument("--height", type=int, default=480)

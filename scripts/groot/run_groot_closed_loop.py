@@ -12,10 +12,10 @@ import mujoco
 import numpy as np
 
 from envs.tasks import G1Task1Env
-from verify_model_free_control import JointPdController, RIGHT_HAND_JOINTS
+from scripts.control.verify_model_free_control import JointPdController, RIGHT_HAND_JOINTS
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT = ROOT / "visualizations/groot_environment1_closed_loop"
 LEFT_HAND_JOINTS = tuple(name.replace("right_", "left_") for name in RIGHT_HAND_JOINTS)
 LEFT_ARM_JOINTS = tuple(
@@ -287,7 +287,7 @@ def run(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-path", default="nvidia/GR00T-N1.7-3B")
-    parser.add_argument("--groot-repo", default="/scratch/sumins/Isaac-GR00T")
+    parser.add_argument("--groot-repo", help="Path to an Isaac-GR00T checkout, if it is not installed")
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--execution-horizon", type=int, default=8)
     parser.add_argument("--max-queries", type=int, default=28)

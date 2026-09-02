@@ -7,13 +7,13 @@ from pathlib import Path
 import numpy as np
 
 from envs.tasks import G1Task1Env, G1Task2Env, G1Task3Env
-from verify_model_free_control import JointPdController
+from scripts.control.verify_model_free_control import JointPdController
 
 
 ENVIRONMENTS = {
     1: (G1Task1Env, "red_mug", "Pick up the red mug and place it on the black coaster."),
-    2: (G1Task2Env, "apple", "Reach out and touch the apple with the right hand."),
-    3: (G1Task3Env, "brush", "Reach out and touch the brush with the right hand."),
+    2: (G1Task2Env, "apple", "Place the apple in the red target and the soda can in the blue target."),
+    3: (G1Task3Env, "brush", "Grasp the brush and use it to sweep the block into the green target."),
 }
 MINIMUM_CONTACT_FRAMES = 3
 TASK1_LOW_ARM_SEED = np.array(

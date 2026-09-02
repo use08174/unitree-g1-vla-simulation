@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 SCENES = {
     1: ROOT / "unitree_robots/g1/g1_task1_scene.xml",
     2: ROOT / "unitree_robots/g1/g1_task2_scene.xml",
@@ -337,10 +337,10 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", default="data/groot_source")
-    parser.add_argument("--output-dir", default="/scratch/sumins/groot_g1_dataset")
+    parser.add_argument("--output-dir", default=ROOT / "data/groot_lerobot")
     parser.add_argument(
         "--include-failed",
         action="store_true",
-        help="Include episodes without hand-target contact (diagnostics only, not recommended for training).",
+        help="Include episodes that fail the full task criteria (diagnostics only).",
     )
     main(parser.parse_args())

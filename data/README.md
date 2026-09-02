@@ -7,7 +7,7 @@ Each NPZ episode stores 20 Hz RGB observations, robot state (`qpos`, `qvel`, wri
 ## Collect
 
 ```bash
-MUJOCO_GL=egl python collect_demonstrations.py \
+MUJOCO_GL=egl python -m scripts.data_pipeline.collect_demonstrations \
   --output-dir data/groot_source \
   --environment all --episodes 1 --seed 0 --variant fixed
 ```
@@ -15,7 +15,7 @@ MUJOCO_GL=egl python collect_demonstrations.py \
 ## Export to GR00T
 
 ```bash
-python export_groot_dataset.py \
+python -m scripts.data_pipeline.export_groot_dataset \
   --input-dir data/groot_source \
   --output-dir /path/to/groot_g1_dataset
 ```

@@ -15,3 +15,5 @@ dist/
 *.egg-info/
 .pytest_cache/
 .mypy_cache/
+models/
+data/groot_lerobot/

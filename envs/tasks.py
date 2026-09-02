@@ -122,7 +122,7 @@ class G1Task2Env(RandomizedTaskEnv):
     def __init__(self):
         super().__init__(
             xml_path="unitree_robots/g1/g1_task2_scene.xml",
-            instruction="Place the apple in the red tray and the soda can in the blue tray."
+            instruction="Place the apple in the red target and the soda can in the blue target."
         )
 
     def _reset_task(self, options):
@@ -196,7 +196,7 @@ class G1Task3Env(RandomizedTaskEnv):
     def __init__(self):
         super().__init__(
             xml_path="unitree_robots/g1/g1_task3_scene.xml",
-            instruction="Grasp the brush handle with the right hand and sweep the block into the green target."
+            instruction="Grasp the brush and use it to sweep the block into the green target."
         )
         self.brush_touched_block = False
         self.hand_touched_brush = False

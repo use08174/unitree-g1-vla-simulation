@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import textwrap
 
+import imageio_ffmpeg
 import mujoco
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -12,12 +13,13 @@ from PIL import Image, ImageDraw, ImageFont
 from envs.tasks import G1Task1Env, G1Task2Env, G1Task3Env
 
 
-FFMPEG = Path("/scratch/sumins/ffmpeg-runtime/bin/ffmpeg")
-DEFAULT_OUTPUT = Path("/scratch/sumins/groot_visualizations/g1_environment_overview.mp4")
+ROOT = Path(__file__).resolve().parents[2]
+FFMPEG = Path(imageio_ffmpeg.get_ffmpeg_exe())
+DEFAULT_OUTPUT = ROOT / "visualizations/environment_setup_variants.mp4"
 TASKS = (
     ("ENVIRONMENT 1 / PICK AND PLACE", G1Task1Env),
     ("ENVIRONMENT 2 / OBJECT SORTING", G1Task2Env),
-    ("ENVIRONMENT 3 / BILATERAL TOOL USE", G1Task3Env),
+    ("ENVIRONMENT 3 / TOOL USE", G1Task3Env),
 )
 
 

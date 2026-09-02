@@ -7,6 +7,9 @@ from pathlib import Path
 from huggingface_hub import snapshot_download
 
 
+ROOT = Path(__file__).resolve().parents[2]
+
+
 def main(args):
     output_directory = Path(args.output_dir)
     snapshot_download(repo_id=args.model, local_dir=output_directory)
@@ -22,5 +25,5 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default="nvidia/GR00T-N1.7-3B")
-    parser.add_argument("--output-dir", default="/scratch/sumins/models/GR00T-N1.7-3B")
+    parser.add_argument("--output-dir", default=ROOT / "models/GR00T-N1.7-3B")
     main(parser.parse_args())

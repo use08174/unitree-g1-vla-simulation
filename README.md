@@ -21,11 +21,11 @@ Task -> Control -> NPZ collection -> REAL_G1 export -> GR00T -> Results
 | Step | Files | Purpose |
 | --- | --- | --- |
 | Task | `envs/`, `unitree_robots/g1/` | Scenes, randomization, and success criteria |
-| Control | `verify_model_free_control.py` | Jacobian IK and PD torque control |
-| Collect | `collect_demonstrations.py` | Record 20 Hz multimodal NPZ episodes |
-| Export | `export_groot_dataset.py`, `groot_real_g1_config.py` | Convert to LeRobot `REAL_G1` format |
-| Infer | `prepare_groot_model.py`, `run_groot_closed_loop.py` | Run GR00T with MuJoCo feedback |
-| Check | `test_envs.py`, `replay_groot_episode.py` | Test tasks and render videos |
+| Control | `scripts/control/` | Jacobian IK and PD torque control |
+| Collect/export | `scripts/data_pipeline/` | Record NPZ episodes and convert to `REAL_G1` |
+| GR00T | `scripts/groot/` | Prepare and run GR00T with MuJoCo feedback |
+| Visualize | `scripts/visualization/` | Render setups and saved episodes |
+| Test | `tests/` | Check environments and success criteria |
 
 Successful source episodes are in `data/groot_source/`; final media is in `visualizations/`.
 
@@ -41,15 +41,15 @@ pip install -r requirements.txt
 
 ```bash
 # Test environments
-MUJOCO_GL=egl python -m unittest test_envs
+MUJOCO_GL=egl python -m unittest tests.test_envs
 
 # Collect one fixed episode per task
-MUJOCO_GL=egl python collect_demonstrations.py \
+MUJOCO_GL=egl python -m scripts.data_pipeline.collect_demonstrations \
   --output-dir data/groot_source \
   --environment all --episodes 1 --seed 0 --variant fixed
 
 # Export successful episodes
-python export_groot_dataset.py \
+python -m scripts.data_pipeline.export_groot_dataset \
   --input-dir data/groot_source \
   --output-dir /path/to/groot_g1_dataset
 ```
@@ -59,7 +59,7 @@ python export_groot_dataset.py \
 Requires the official Isaac-GR00T repository and `nvidia/GR00T-N1.7-3B` checkpoint.
 
 ```bash
-MUJOCO_GL=egl python run_groot_closed_loop.py \
+MUJOCO_GL=egl python -m scripts.groot.run_groot_closed_loop \
   --groot-repo /path/to/Isaac-GR00T \
   --model-path /path/to/GR00T-N1.7-3B \
   --output visualizations/groot_environment1_pick_and_place
