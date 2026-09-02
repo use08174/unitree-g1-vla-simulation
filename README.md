@@ -1,48 +1,33 @@
 # Unitree G1 VLA Simulation
 
-Three MuJoCo manipulation tasks with model-free verification, multimodal rollout collection, and GR00T N1.7 evaluation.
+MuJoCo manipulation tasks for Unitree G1, including model-free control, demonstration collection, and GR00T N1.7 evaluation.
 
 ## Tasks
 
-1. Pick up a red mug and place it on a black coaster.
-2. Place an apple and soda can in their matching targets.
-3. Grasp a brush and sweep a block into the green target.
+| Environment | Task |
+| --- | --- |
+| 1 | Pick up a mug and place it on a coaster |
+| 2 | Sort an apple and soda can into matching targets |
+| 3 | Grasp a brush and sweep a block into a target |
 
-Each environment supports fixed and randomized layouts. Objects remain free MuJoCo bodies; the controllers do not teleport or attach them.
+All tasks support fixed and randomized layouts. Objects move only through MuJoCo contact.
 
 ## Pipeline and Files
 
 ```text
-Task scenes -> Model-free control -> Raw NPZ data -> REAL_G1 export
-    -> GR00T inference -> MuJoCo feedback -> Videos and results
+Task -> Control -> NPZ collection -> REAL_G1 export -> GR00T -> Results
 ```
 
-1. **Define the tasks**
-  - `unitree_robots/g1/g1_task*_scene.xml` defines the G1, table, objects, cameras, and collisions.
-  - `envs/base_env.py` provides the MuJoCo reset, observation, and step interface.
-  - `envs/tasks.py` adds instructions, randomized layouts, metrics, and success criteria.
+| Step | Files | Purpose |
+| --- | --- | --- |
+| Task | `envs/`, `unitree_robots/g1/` | Scenes, randomization, and success criteria |
+| Control | `verify_model_free_control.py` | Jacobian IK and PD torque control |
+| Collect | `collect_demonstrations.py` | Record 20 Hz multimodal NPZ episodes |
+| Export | `export_groot_dataset.py`, `groot_real_g1_config.py` | Convert to LeRobot `REAL_G1` format |
+| Infer | `prepare_groot_model.py`, `run_groot_closed_loop.py` | Run GR00T with MuJoCo feedback |
+| Check | `test_envs.py`, `replay_groot_episode.py` | Test tasks and render videos |
 
-2. **Generate model-free actions**
-  - `verify_model_free_control.py` converts Cartesian hand targets to joint targets with Jacobian IK and tracks them with PD torque control.
-  - `collect_demonstrations.py` defines each task's waypoint sequence and executes it in MuJoCo.
-
-3. **Collect raw rollout data**
-  - `collect_demonstrations.py` records synchronized RGB, `qpos`, `qvel`, torque actions, wrist poses, interaction labels, language, and metadata at 20 Hz.
-  - `data/groot_source/` contains one successful fixed-layout NPZ episode per task.
-
-4. **Convert data for GR00T**
-  - `groot_real_g1_config.py` defines GR00T's 49D state and 53D action structure.
-  - `export_groot_dataset.py` maps the raw NPZ episodes to the `REAL_G1` LeRobot dataset format.
-
-5. **Run policy inference**
-  - `prepare_groot_model.py` downloads the GR00T N1.7 checkpoint and applies the Tesla T4 setting.
-  - `run_groot_closed_loop.py` sends images, language, and G1 state to GR00T, applies predicted targets through the PD controller, and returns the new MuJoCo observations to the policy.
-
-6. **Validate and visualize**
-  - `test_envs.py` checks environment behavior and task success conditions.
-  - `replay_groot_episode.py` renders saved NPZ episodes as videos.
-  - `render_environment_preview.py` renders randomized setup variants.
-  - `visualizations/` contains the report figures, rule-based videos, and GR00T evaluation video.
+Successful source episodes are in `data/groot_source/`; final media is in `visualizations/`.
 
 ## Setup
 
@@ -52,21 +37,18 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Headless rendering uses `MUJOCO_GL=egl`.
-
-## Verify and Collect
+## Run
 
 ```bash
+# Test environments
 MUJOCO_GL=egl python -m unittest test_envs
 
+# Collect one fixed episode per task
 MUJOCO_GL=egl python collect_demonstrations.py \
   --output-dir data/groot_source \
   --environment all --episodes 1 --seed 0 --variant fixed
-```
 
-The raw NPZ files preserve RGB images, full MuJoCo state, torque actions, wrist poses, interaction labels, language, and metadata. They are converted to GR00T format during export:
-
-```bash
+# Export successful episodes
 python export_groot_dataset.py \
   --input-dir data/groot_source \
   --output-dir /path/to/groot_g1_dataset
@@ -74,7 +56,7 @@ python export_groot_dataset.py \
 
 ## GR00T Evaluation
 
-GR00T evaluation requires NVIDIA's official Isaac-GR00T repository, its dependencies, and the `nvidia/GR00T-N1.7-3B` checkpoint.
+Requires the official Isaac-GR00T repository and `nvidia/GR00T-N1.7-3B` checkpoint.
 
 ```bash
 MUJOCO_GL=egl python run_groot_closed_loop.py \
@@ -83,7 +65,7 @@ MUJOCO_GL=egl python run_groot_closed_loop.py \
   --output visualizations/groot_environment1_pick_and_place
 ```
 
-The submitted zero-shot rollout executed 25 policy queries and 200 action targets. The integration worked, but the policy did not contact the mug.
+Submitted zero-shot result: 25 policy queries and 200 action targets. The integration ran successfully, but the policy did not contact the mug.
 
 ## Submission Videos
 
