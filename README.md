@@ -69,7 +69,12 @@ Submitted zero-shot result: 25 policy queries and 200 action targets. The integr
 
 ## Submission Videos
 
-- [Environment 1: Pick and place](visualizations/submission_environment1_pick_and_place.mp4)
-- [Environment 2: Object sorting](visualizations/submission_environment2_sort_and_grasp.mp4)
-- [Environment 3: Tool use](visualizations/submission_environment3_grasp_and_sweep.mp4)
-- [GR00T: Environment 1 policy evaluation](visualizations/groot_environment1_pick_and_place.mp4)
+Click a preview to open the full MP4.
+
+| Environment 1: Pick and place | Environment 2: Object sorting |
+| --- | --- |
+| [![Environment 1 demonstration](visualizations/submission_environment1_pick_and_place_preview.gif)](visualizations/submission_environment1_pick_and_place.mp4) | [![Environment 2 demonstration](visualizations/submission_environment2_sort_and_grasp_preview.gif)](visualizations/submission_environment2_sort_and_grasp.mp4) |
+
+| Environment 3: Tool use | GR00T policy evaluation |
+| --- | --- |
+| [![Environment 3 demonstration](visualizations/submission_environment3_grasp_and_sweep_preview.gif)](visualizations/submission_environment3_grasp_and_sweep.mp4) | [![GR00T Environment 1 evaluation](visualizations/groot_environment1_pick_and_place_preview.gif)](visualizations/groot_environment1_pick_and_place.mp4) |
